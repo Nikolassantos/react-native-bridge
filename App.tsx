@@ -1,29 +1,70 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * Generated with the TypeScript template
- * https://github.com/react-native-community/react-native-template-typescript
- *
- * @format
- */
-
 import React from 'react';
-import {SafeAreaView, View, NativeModules, Button} from 'react-native';
+import {
+  SafeAreaView,
+  View,
+  NativeModules,
+  Button,
+  StyleSheet,
+  ToastAndroid,
+} from 'react-native';
 
 const App = () => {
   const activityStarter = NativeModules.ActivityStarter;
 
+  function showToast(str: string) {
+    ToastAndroid.show(str, ToastAndroid.SHORT);
+  }
+
+  function copyToClipboard() {
+    NativeModules.Clipboard.setString('Copied to clipboard from JavaScript!');
+
+    ToastAndroid.show(
+      'Copied to clipboard from JavaScript!',
+      ToastAndroid.SHORT,
+    );
+  }
+
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <View>
-        <Button
-          title="handle"
-          onPress={() => activityStarter.navigateToExample()}
-        />
+        <View style={styles.buttonStyle}>
+          <Button
+            title="Navigate"
+            onPress={() => activityStarter.navigateToExample()}
+          />
+        </View>
+        <View style={styles.buttonStyle}>
+          <Button
+            onPress={() =>
+              activityStarter.getActivityName((name: string) => showToast(name))
+            }
+            title="Get activity name"
+          />
+        </View>
+        <View style={styles.buttonStyle}>
+          <Button
+            onPress={() => activityStarter.callJavaScript()}
+            title="Call JavaScript from Java"
+          />
+        </View>
+        <View style={styles.buttonStyle}>
+          <Button onPress={copyToClipboard} title="Copy to clipboard" />
+        </View>
       </View>
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+  },
+  buttonStyle: {
+    marginTop: 5,
+  },
+});
 
 export default App;
