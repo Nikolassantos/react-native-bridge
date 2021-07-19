@@ -75,24 +75,6 @@ final class ActivityStarterModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     void callJavaScript() {
-        Activity activity = getCurrentActivity();
-        if (activity != null) {
-            MainApplication application = (MainApplication) activity.getApplication();
-            ReactNativeHost reactNativeHost = application.getReactNativeHost();
-            ReactInstanceManager reactInstanceManager = reactNativeHost.getReactInstanceManager();
-            ReactContext reactContext = reactInstanceManager.getCurrentReactContext();
-
-            if (reactContext != null) {
-                CatalystInstance catalystInstance = reactContext.getCatalystInstance();
-                WritableNativeArray params = new WritableNativeArray();
-                params.pushString("Hello, JavaScript!");
-
-                // AFAIK, this approach to communicate from Java to JavaScript is officially undocumented.
-                // Use at own risk; prefer events.
-                // Note: Here we call 'alert', which shows UI. If this is done from an activity that
-                // doesn't forward lifecycle events to React Native, it wouldn't work.
-                catalystInstance.callFunction("JavaScriptVisibleToJava", "alert", params);
-            }
-        }
+      // Javascript code here!
     }
 }
