@@ -75,6 +75,20 @@ final class ActivityStarterModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     void callJavaScript() {
-      // Javascript code here!
+     Activity activity = getCurrentActivity();
+            if (activity != null) {
+                MainApplication application = (MainApplication) activity.getApplication();
+                ReactNativeHost reactNativeHost = application.getReactNativeHost();
+                ReactInstanceManager reactInstanceManager = reactNativeHost.getReactInstanceManager();
+                ReactContext reactContext = reactInstanceManager.getCurrentReactContext();
+
+                if (reactContext != null) {
+                    CatalystInstance catalystInstance = reactContext.getCatalystInstance();
+                    WritableNativeArray params = new WritableNativeArray();
+                    params.pushString("Hello, JavaScript!");
+
+                    catalystInstance.callFunction("JavaScriptVisibleToJava", "alert", params);
+                }
+            }
     }
 }
