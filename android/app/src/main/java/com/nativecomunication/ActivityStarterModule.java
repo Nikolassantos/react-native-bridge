@@ -45,50 +45,13 @@ final class ActivityStarterModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    void dialNumber(@NonNull String number) {
+    void openCamera() {
         Activity activity = getCurrentActivity();
-        if (activity != null) {
-            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + number));
+
+        if(activity != null) {
+            Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+
             activity.startActivity(intent);
         }
-    }
-
-    @ReactMethod
-    void getActivityName(@NonNull Callback callback) {
-        Activity activity = getCurrentActivity();
-        if (activity != null) {
-            callback.invoke(activity.getClass().getSimpleName());
-        } else {
-            callback.invoke("No current activity");
-        }
-    }
-
-    @ReactMethod
-    void getActivityNameAsPromise(@NonNull Promise promise) {
-        Activity activity = getCurrentActivity();
-        if (activity != null) {
-            promise.resolve(activity.getClass().getSimpleName());
-        } else {
-            promise.reject("NO_ACTIVITY", "No current activity");
-        }
-    }
-
-    @ReactMethod
-    void callJavaScript() {
-     Activity activity = getCurrentActivity();
-            if (activity != null) {
-                MainApplication application = (MainApplication) activity.getApplication();
-                ReactNativeHost reactNativeHost = application.getReactNativeHost();
-                ReactInstanceManager reactInstanceManager = reactNativeHost.getReactInstanceManager();
-                ReactContext reactContext = reactInstanceManager.getCurrentReactContext();
-
-                if (reactContext != null) {
-                    CatalystInstance catalystInstance = reactContext.getCatalystInstance();
-                    WritableNativeArray params = new WritableNativeArray();
-                    params.pushString("Hello, JavaScript!");
-
-                    catalystInstance.callFunction("JavaScriptVisibleToJava", "alert", params);
-                }
-            }
     }
 }
