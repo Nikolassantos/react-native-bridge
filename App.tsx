@@ -13,7 +13,7 @@ export default class ActivityDemoComponent extends Component {
     return (
       <View style={styles.container}>
         <Button
-          onPress={() => activityStarter.openCamera()}
+          onPress={() => activityStarter.navigateToExample()}
           title="Open Camera"
         />
       </View>
