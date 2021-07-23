@@ -1,5 +1,7 @@
 package com.nativecomunication;
 
+import android.graphics.Bitmap;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -52,7 +54,7 @@ final class EventEmitterModule extends ReactContextBaseJavaModule {
     /**
      * To pass a JavaScript object instead of a simple string, create a {@link WritableNativeMap} and populate it.
      */
-    static void emitEvent(@NonNull String message) {
-        eventEmitter.emit("MyEventValue", message);
+    static void emitEvent(@NonNull String str) {
+        eventEmitter.emit("MyEventValue", str);
     }
 }

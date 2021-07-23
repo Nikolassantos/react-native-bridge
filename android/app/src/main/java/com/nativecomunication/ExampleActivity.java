@@ -107,8 +107,7 @@ public class ExampleActivity extends Activity
         {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
             imageView.setImageBitmap(photo);
-
-        
+             EventEmitterModule.emitEvent("Hello from " + ExampleActivity.class.getSimpleName());
         }
     }
 }

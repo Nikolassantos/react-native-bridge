@@ -66,8 +66,8 @@ const styles = StyleSheet.create({
   },
 });
 
-// const eventEmitter = new NativeEventEmitter(exampleActivity);
+const eventEmitter = new NativeEventEmitter(exampleActivity);
 
-// eventEmitter.addListener(exampleActivity.MyEventName, (params: any) => {
-//   console.log(params);
-// });
+eventEmitter.addListener(exampleActivity.MyEventName, (params: any) => {
+  console.log(params);
+});
