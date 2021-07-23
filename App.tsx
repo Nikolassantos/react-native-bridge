@@ -1,7 +1,15 @@
 import React, {Component} from 'react';
-import {Button, NativeModules, StyleSheet, View} from 'react-native';
+import {
+  Button,
+  NativeEventEmitter,
+  NativeModules,
+  StyleSheet,
+  View,
+} from 'react-native';
 
 const activityStarter = NativeModules.ActivityStarter;
+
+const exampleActivity = NativeModules.ExampleActivity;
 
 export default class ActivityDemoComponent extends Component {
   constructor(props: any) {
@@ -57,3 +65,9 @@ const styles = StyleSheet.create({
     margin: 10,
   },
 });
+
+// const eventEmitter = new NativeEventEmitter(exampleActivity);
+
+// eventEmitter.addListener(exampleActivity.MyEventName, (params: any) => {
+//   console.log(params);
+// });

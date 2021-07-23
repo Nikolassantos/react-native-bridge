@@ -2,9 +2,12 @@ package com.nativecomunication;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Environment;
@@ -18,6 +21,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.nio.file.Files;
@@ -53,8 +57,6 @@ public class ExampleActivity extends Activity
     private ImageView imageView;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
 
-    Button saveimage;
-
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -63,19 +65,9 @@ public class ExampleActivity extends Activity
         this.imageView = (ImageView)this.findViewById(R.id.imageView1);
         Button photoButton = (Button) this.findViewById(R.id.button1);
 
-        saveimage = (Button)findViewById(R.id.savegallery);
 
         ActivityCompat.requestPermissions(ExampleActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
         ActivityCompat.requestPermissions(ExampleActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},1);
-
-
-        saveimage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                saveToGallery();
-            }
-        });
-
 
 
         photoButton.setOnClickListener(new View.OnClickListener()
@@ -115,35 +107,9 @@ public class ExampleActivity extends Activity
         {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
             imageView.setImageBitmap(photo);
+
+        
         }
     }
-
-     private void saveToGallery() {
-         ImageView img = (ImageView) findViewById(R.id.imageView1);
-
-         BitmapDrawable draw = (BitmapDrawable) img.getDrawable();
-        Bitmap bitmap = draw.getBitmap();
-
-        FileOutputStream outStream = null;
-        File sdCard = Environment.getExternalStorageDirectory();
-        File dir = new File(sdCard.getAbsolutePath() + "/SaveImages");
-        dir.mkdirs();
-        String fileName = String.format("%d.jpg", System.currentTimeMillis());
-        File outFile = new File(dir, fileName);
-        try {
-            outStream = new FileOutputStream(outFile);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
-        try {
-            outStream.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            outStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }}
 }
+
