@@ -1,73 +1,67 @@
-import React, {Component} from 'react';
+/* eslint-disable prettier/prettier */
+import React, { useState } from 'react';
 import {
   Button,
   NativeEventEmitter,
   NativeModules,
   StyleSheet,
   View,
+  Image,
+  Text,
 } from 'react-native';
 
 const activityStarter = NativeModules.ActivityStarter;
+const eventEmitter = NativeModules.EventEmitter;
+const nativeEventEmitter = new NativeEventEmitter(eventEmitter);
 
-const exampleActivity = NativeModules.ExampleActivity;
+const ReactNativeBridge: React.FC = () => {
+  const [image, setImage] = useState<any>();
 
-export default class ActivityDemoComponent extends Component {
-  constructor(props: any) {
-    super(props);
-    this.state = {text: 'Demo text for custom edit menu'};
-  }
+  nativeEventEmitter.addListener(eventEmitter.MyEventName, (params: any) => {
+    setImage({
+      uri: `data:image/png;base64,${params.encodedImage}`,
+      height: params.imageHeight,
+      width: params.imageWidth,
+    });
+  });
 
-  render() {
-    return (
-      <View style={styles.container}>
+  return (
+    <View style={styles.container}>
+      <Text>Módulo JS</Text>
+
+      <View style={styles.buttonWrapper}>
         <Button
           onPress={() => activityStarter.navigateToExample()}
           title="Open Camera"
         />
       </View>
-    );
-  }
-}
+      {
+        image && (
+          <Image
+            style={{
+              width: image.width,
+              height: image.height,
+            }}
+            source={{
+              uri: image.uri,
+            }}
+          />
+        )
+      }
+    </View>
+  );
+};
+
+export default ReactNativeBridge;
 
 const styles = StyleSheet.create({
-  bold: {
-    fontWeight: 'bold',
-  },
-  buttonContainer: {
-    height: 300,
-    width: '80%',
-    justifyContent: 'space-between',
-    marginTop: 30,
-  },
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#E5ECFF',
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  buttonWrapper: {
+    marginVertical: 32,
   },
-  textInput: {
-    backgroundColor: 'white',
-    borderColor: 'gray',
-    borderWidth: 1,
-    height: 40,
-    marginTop: 20,
-    textAlign: 'center',
-    width: '80%',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-});
-
-const eventEmitter = new NativeEventEmitter(exampleActivity);
-
-eventEmitter.addListener(exampleActivity.MyEventName, (params: any) => {
-  console.log(params);
 });
