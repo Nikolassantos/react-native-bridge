@@ -39,19 +39,8 @@ final class ActivityStarterModule extends ReactContextBaseJavaModule {
     void navigateToExample() {
         Activity activity = getCurrentActivity();
         if (activity != null) {
-            Intent intent = new Intent(activity, ExampleActivity.class);
-            activity.startActivity(intent);
-        }
-    }
-
-    @ReactMethod
-    void openCamera() {
-        Activity activity = getCurrentActivity();
-
-        if(activity != null) {
-            Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-
-            activity.startActivity(intent);
+             Intent intent = new Intent(activity, ExampleActivity.class);
+             activity.startActivity(intent);
         }
     }
 }

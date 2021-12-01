@@ -60,6 +60,7 @@ public final class MainApplication extends Application implements ReactApplicati
         protected List<ReactPackage> getPackages() {
             return Arrays.asList(
                     new ActivityStarterReactPackage(),
+                    new EventEmitterReactPackage(),
                     new MainReactPackage()
             );
         }
